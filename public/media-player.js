@@ -1,79 +1,44 @@
 $( document ).ready(function() {
-    var duration; // Duration of audio clip   
-    var timelineWidth = $('#timeline').width() - $('#playhead').width();  // timeline width adjusted for playhead
-    audioSource.addEventListener("timeupdate", timeUpdate, false); 
-    //Makes timeline clickable
-    $('#timeline').on("click", function (event) {
-        moveplayhead(event);
-        audioSource.currentTime = duration * clickPercent(event);
-    });
-    // returns click as decimal (.77) of the total timelineWidth
-    function clickPercent(e) {
-        return (e.pageX - $('#timeline').offset().left) / timelineWidth;
-    }
-    // Makes playhead draggable 
-    document.getElementById('playhead').addEventListener('mousedown', mouseDown, false);
-    window.addEventListener('mouseup', mouseUp, false);
-
-    // Boolean value so that mouse is moved on mouseUp only when the playhead is released 
-    var onplayhead = false;
-    // mouseDown EventListener
-    function mouseDown() {
-        onplayhead = true;
-        window.addEventListener('mousemove', moveplayhead, true);
-        audioSource.removeEventListener('timeupdate', timeUpdate, false);
-    }
-    // mouseUp EventListener: getting input from all mouse clicks
-    function mouseUp(e) {
-        if (onplayhead == true) {
-            moveplayhead(e);
-            window.removeEventListener('mousemove', moveplayhead, true);
-            // change current time
-            audioSource.currentTime = duration * clickPercent(e);
-            audioSource.addEventListener('timeupdate', timeUpdate, false);
-        }
-        onplayhead = false;
-    }
-    // mousemove EventListener: Moves playhead as user drags
-    function moveplayhead(e) {
-        var newMargLeft = e.pageX - $('#timeline').offset().left;
-        if (newMargLeft >= 0 && newMargLeft <= timelineWidth) {
-            $('#playhead').css('margin-left', newMargLeft + "px");
-        }
-        if (newMargLeft < 0) {
-            $('#playhead').css('margin-left', 0);
-        }
-        if (newMargLeft > timelineWidth) {
-            $('#playhead').css('margin-left', timelineWidth + "px");
-        }
-    }
-
-    // timeUpdate: Synchronizes playhead position with current point in audioSource 
-    function timeUpdate() {
-        var playPercent = timelineWidth * (audioSource.currentTime / duration);
-        $('#playhead').css('margin-left', playPercent + "px");
-        if (audioSource.currentTime == duration) {
-            $('#pButton > i').removeClass('fa-pause');
-            $('#pButton > i').addClass('fa-play');
-        }      
-    }
-
     //Play and Pause
     $( "#pButton" ).click(function() {
         if (audioSource.paused) 
             audioSource.play();
-        else
+        else 
             audioSource.pause();
         $('#pButton > i').toggleClass('fa-play');
         $('#pButton > i').toggleClass('fa-pause');
-    });
-
-    // Gets audio file duration
-    audioSource.addEventListener("canplaythrough", function () {
-        duration = audioSource.duration;  
-    }, false);
+    })
 });
 
+var audioSource = new Audio, 
+context = new AudioContext,
+sourceNode = context.createMediaElementSource(audioSource),
+id = window.location.href.split('/'),
+url = 'http://api.soundcloud.com/tracks/' + id[id.length-1] + '/stream?client_id=a76e446ebb86aaafa04e563f2e8046f3&callback=processTracks';
+paulstretchWorker = new Worker('/paulstretch-worker.js'), 
+paulstretchNode = context.createScriptProcessor(4096, 1, 1),
+
+volume = 1,
+ampModFreq = 1,
+ampModShape = null,
+filterQ = 0,
+filterFreq = 400,
+ampGainNode = context.createGain(),
+ampModulatorNode = null,
+filterNode = context.createBiquadFilter(),
+mixerNode = context.createGain();
+
+filterNode.type = 'bandpass';
+filterNode.Q.value = filterQ;
+filterNode.frequency.value = filterFreq;
+audioSource.crossOrigin = 'anonymus';
+audioSource.src = url;
+
+sourceNode.connect(paulstretchNode);
+paulstretchNode.connect(ampGainNode);
+ampGainNode.connect(filterNode);
+filterNode.connect(mixerNode);
+mixerNode.connect(context.destination);
 
 
 
