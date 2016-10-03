@@ -5,7 +5,7 @@ winSize = 4096 * 4,
 blocksIn = [], 
 blocksOut = [],
 configForm = document.getElementById('config')
-PSconnected = false;
+basic = false;
 
 paulstretchWorker.postMessage({
     type: 'init',
@@ -21,13 +21,11 @@ $( document ).ready(function() {
         e.preventDefault();
         var ratio = parseFloat(this.elements[0].value)
         if (ratio < 2){
-            if (PSconnected)
-                disconnectPS();
-            basicStretch(1/ratio);
+            basic = true;
+            audioSource.playbackRate = (1/ratio);
         } else {
-            if (!PSconnected)
-                connectPS();
-            blocksIn, blocksOut = [];
+            basic = false;
+            //blocksIn, blocksOut = [];
             paulstretchWorker.postMessage({ type: 'config', ratio: ratio });
         }   
     });
@@ -62,33 +60,16 @@ $( document ).ready(function() {
         // Periodically, handle the `blockIn` and `blockOut` queues :
         // Send `blocksIn` to the worker for future processing and ask for batches that are ready to put in `blocksOut`.
         setInterval(function() {
-            if (blocksIn.length && PSconnected && !audioSource.paused)
+            if (blocksIn.length && basic && !audioSource.paused)
                 paulstretchWorker.postMessage({ type: 'write', data: blocksIn.shift() });
-            if (blocksIn.length && !PSconnected && !audioSource.paused) {
+            if (blocksIn.length && !basic && !audioSource.paused) {
                 while (blocksIn.length) 
                     blocksOut.push(blocksIn.shift());
             }
-            if (blocksOut.length < batchSize && PSconnected && !audioSource.paused) 
+            if (blocksOut.length < batchSize && basic && !audioSource.paused) 
                 paulstretchWorker.postMessage({ type: 'read' });
         }, 100)
 
     }, true)   
 });
-
-function disconnectPS(){
-    PSconnected = false;
-    // sourceNode.disconnect(paulstretchNode);
-    // paulstretchNode.disconnect(ampGainNode);
-    // sourceNode.connect(ampGainNode);
-}
-function connectPS(){
-    PSconnected = true;
-    // audioSource.playbackRate = 1;
-    // sourceNode.disconnect(ampGainNode);
-    // sourceNode.connect(paulstretchNode);
-    // paulstretchNode.connect(ampGainNode);
-}
-function basicStretch(amount){
-    audioSource.playbackRate = amount;
-}
 
