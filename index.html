@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>title</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
+    <script src="/AudioContextMonkeyPatch.js"></script>
+    <script src="/paulstretch.js"></script>
+    <script src="/media-player.js"></script>
+    <script src="/sc-search.js"></script>
+    <script src="/stretching.js"></script>
+    <script src="https://connect.soundcloud.com/sdk/sdk-3.1.2.js"></script>
+    <script>
+        SC.initialize({client_id: 'b08b49bc3f8223e8bb6dfafacdb693de'});
+    </script>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <button id="sButton" class="play btn btn-default" type="button">
+            <i  class="fa fa-search fa-lg" aria-hidden="true" ></i>
+          </button>
+        </div>
+        <div class="col-sm-12">
+          <button id="pButton" class="play btn btn-default" type="button">
+            <i id="playicon" class="fa fa-pause fa-5x" aria-hidden="true" ></i>
+          </button>
+        </div>
+        <div id="audio-player" class="col-sm-12">
+          <div id="timeline">
+            <div id="playhead"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid">
+      <form id="Query">
+        <input id='song-query' name="query" />
+        <input type="submit" value="Search" />
+      </form>
+      <form id="config">
+        <input type="number" id='configInput' name="config" />
+        <input type="submit" value="Update" />
+      </form>  
+    </div>
+    <div class="container-fluid">
+      <ul id="songlist" class="list-group"></ul>  
+    </div>
+  </body>
+</html>
