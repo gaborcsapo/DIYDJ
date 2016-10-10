@@ -14,6 +14,10 @@
     <script src="/media-player.js"></script>
     <script src="/sc-search.js"></script>
     <script src="/stretching.js"></script>
+    <script src="/dsp.js"></script>
+    <script src="/pitchshift.js"></script>
+    <script src="/pitchshift-node.js"></script>
+    
     <script src="https://connect.soundcloud.com/sdk/sdk-3.1.2.js"></script>
     <script>
         SC.initialize({client_id: 'b08b49bc3f8223e8bb6dfafacdb693de'});
@@ -40,8 +44,13 @@
         <input type="submit" value="Search" />
       </form>
       <form id="config">
-        <input type="number" step="0.01" id='configInput' name="config" />
-        <input type="submit" value="Update" />
+        <input type="range" min="0.25" max="6" step="0.25" oninput="setStretch(this.value)">
+        <input type="range" min="0.1" max="8" step="0.1" oninput="setAmpModFreq(this.value)">
+        <input type="range" min="0" max="4000" step="1" oninput="setFilterFreq(this.value)">
+        <input type="range" min="0" max="100" step="1" oninput="setFilterQ(this.value)">
+        <input type="range" min="0" max="1" step="0.05" oninput="setVolume(this.value)">
+        pitch
+        <input id="pitchRatioSlider" type="range" min="0.5" max="2" step="0.01">
       </form>  
     </div>
     <div class="container-fluid">
