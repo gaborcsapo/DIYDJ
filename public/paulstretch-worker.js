@@ -28,7 +28,6 @@ onmessage = function (event) {
 
   case 'config':
     paulStretch.setRatio(event.data.ratio)
-    debug('change config, ratio : ' + event.data.ratio)
     break
 
   case 'read':

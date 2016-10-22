@@ -10,12 +10,13 @@ basic = true;
 
 var stretchDec = function (ratio){
     if (ratio < 2){
+            if (basic == false)
+                blocksOut = [];
             basic = true;
             audioSource.playbackRate = (1/ratio);
         } else {
             basic = false;
             audioSource.playbackRate = 1;
-            //blocksIn, blocksOut = [];
             paulstretchWorker.postMessage({ type: 'config', ratio: ratio });
         }
 }
@@ -62,8 +63,11 @@ $( document ).ready(function() {
             if (blocksIn.length && !basic && !audioSource.paused)
                 paulstretchWorker.postMessage({ type: 'write', data: blocksIn.shift() });
             if (blocksIn.length && basic && !audioSource.paused) {
-                while (blocksIn.length) 
-                    blocksOut.push(blocksIn.shift());
+                while (blocksIn.length) {
+                    var out = blocksIn.shift();
+                    blocksOut.push(out);
+                
+                }
             }
             if (blocksOut.length < batchSize && !basic && !audioSource.paused) 
                 paulstretchWorker.postMessage({ type: 'read' });
