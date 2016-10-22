@@ -53,13 +53,10 @@
         <input type="submit" value="Search" />
       </form>
       <form id="config">
-        <input type="range" min="0.25" max="6" step="0.25" oninput="setStretch(this.value)">
-        <input type="range" min="0.1" max="8" step="0.1" oninput="setAmpModFreq(this.value)">
-        <input type="range" min="0" max="4000" step="1" oninput="setFilterFreq(this.value)">
-        <input type="range" min="0" max="100" step="1" oninput="setFilterQ(this.value)">
-        <input type="range" min="0" max="1" step="0.05" oninput="setVolume(this.value)">
-        pitch
-        <input id="pitchRatioSlider" type="range" min="0.5" max="2" step="0.01">
+        <input id="one" type="range" min="0" max="1023" step="0" oninput="setOne(this.value)">
+        <input id="two" type="range" min="0" max="1023" step="0" oninput="setTwo(this.value)">
+        <input id="three" type="range" min="0" max="1023" step="0" oninput="setThree(this.value)">
+        
       </form>  
     </div>
     <div class="container-fluid">

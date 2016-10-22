@@ -26,8 +26,7 @@ app.get("*", function(request, response){
 	response.render('index');
 });
 
-server
-.listen(3000, function () {
+server.listen(3000, function () {
   console.log('Example app listening on port 3000!');
 });
 
@@ -46,7 +45,7 @@ var myPort = new SerialPort("COM18", {
 	baudRate: 9600,
 	// look for return and newline at the end of each data packet:
 	parser: serialport.parsers.readline("\n")
-	});
+});
 
 myPort.on('open', showPortOpen);
 myPort.on('data', sendSerialData);
@@ -58,18 +57,20 @@ function showPortOpen() {
 }
  
 function sendSerialData(data) {
-   //console.log(data);
    ardatArray = data.trim().split(",");
    if (Math.abs(parseInt(ardatArray[0]) - ardat1)>3){
-      ardat = parseInt(ardatArray[0]);
+      ardat1 = parseInt(ardatArray[0]);
+      console.log(ardat1);
       io.emit('ardat1', ardat1);
    }
    if (Math.abs(parseInt(ardatArray[1]) - ardat2)>3){
-      ardat = parseInt(ardatArray[1]);
+      ardat2 = parseInt(ardatArray[1]);
+      console.log(ardat2);
       io.emit('ardat2', ardat2);
    }
    if (Math.abs(parseInt(ardatArray[2]) - ardat3)>3){
-      ardat = parseInt(ardatArray[2]);
+      ardat3 = parseInt(ardatArray[2]);
+      console.log(ardat3);
       io.emit('ardat3', ardat3);
    }  
 }
@@ -83,10 +84,13 @@ function showError(error) {
 }
 
 function sendToSerial(data) {
- console.log("sending to serial: " + data);
- myPort.write(data);
+  console.log("sending to serial: " + data);
+  myPort.write(data);
 }
 
 io.on('connection', function(socket){
   console.log('a user connected');
+  io.emit('ardat1', ardat1);
+  io.emit('ardat2', ardat2);
+  io.emit('ardat3', ardat3);
 });

@@ -22,6 +22,7 @@ var stretchDec = function (ratio){
 }
 
 $( document ).ready(function() {
+    var paulstretchWorker = new Worker('/paulstretch-worker.js');
     paulstretchWorker.postMessage({
         type: 'init',
         winSize: winSize,

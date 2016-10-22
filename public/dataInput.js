@@ -18,22 +18,22 @@ $( document ).ready(function() {
                 $('#songlist').append('<li class="list-group-item" onclick="changeSong(' + item.id + ')" >' + item.title + '</li>');
             });
         });
-    });
+    }); 
 
     //Socket.io input from Arduino
     socket = io();
     socket.on('ardat1', function(msg){
-        ardat1 = msg;
-        $('#ardat1').html(msg);
+        setOne(parseInt(msg));
+        document.getElementById("one").value = parseInt(msg);
     });
     socket.on('ardat2', function(msg){
-        ardat2 = msg;
-        $('#ardat2').html(msg);
+        setTwo(parseInt(msg));
+        document.getElementById("two").value = parseInt(msg);
     });
     socket.on('ardat3', function(msg){
-        ardat3 = msg;
-        $('#ardat3').html(msg);
-    });   
+        setThree(parseInt(msg));
+        document.getElementById("three").value = parseInt(msg);
+    });  
 });
 
 

@@ -1,40 +1,34 @@
 var audioSource = new Audio,
 context = new AudioContext,
 sourceNode = context.createMediaElementSource(audioSource),
+paulstretchNode = context.createScriptProcessor(4096, 1, 1);
 id = window.location.href.split('/'),
+track = id[id.length-1] || "95831002";
 url = 'http://api.soundcloud.com/tracks/' + id[id.length-1] + '/stream?client_id=a76e446ebb86aaafa04e563f2e8046f3&callback=processTracks';
-    
+
+var player;
+var crusher; 
+var cheby; 
+var dist = new Tone.Distortion(0); 
+var pitch;
+var tremolo;
+var vibrato;
+
 $( document ).ready(function() {
-    paulstretchWorker = new Worker('/paulstretch-worker.js'), 
-    paulstretchNode = context.createScriptProcessor(4096, 1, 1),
-    pitchShiftNode = context.createScriptProcessor(2048, 1, 1),
-    ampGainNode = context.createGain(),
-    filterNode = context.createBiquadFilter(),
-    volumeNode = context.createGain();
-    
-    stretch = 1,
-    volume = 1,
-    ampModFreq = 1,
-    ampModShape = null,
-    filterQ = 0,
-    filterFreq = 400;
-
-    filterNode.type = 'bandpass';
-    filterNode.Q.value = filterQ;
-    filterNode.frequency.value = filterFreq;
-    
     audioSource.crossOrigin = 'anonymus';
-    audioSource.src = url;
-
-    //sourceNode.connect(ampGainNode);
-    sourceNode.connect(paulstretchNode);
-    //sourceNode.connect(pitchShiftNode);
-    paulstretchNode.connect(pitchShiftNode);
-    //paulstretchNode.connect(filterNode);
-    pitchShiftNode.connect(filterNode);
-    filterNode.connect(volumeNode);
-    volumeNode.connect(context.destination);
-    
+    audioSource.src = url;    
+       
+    player = new Tone.Player(url, function(){
+        console.log("Song loaded");
+    })
+    player.autostart = true;
+    crusher = new Tone.BitCrusher(8); //1-8
+    cheby = new Tone.Chebyshev(1);  //1-100
+    dist = new Tone.Distortion(0); //0-1
+    pitch = new Tone.PitchShift(0);
+    tremolo = new Tone.Tremolo(9, 0.75);
+    vibrato = new Tone.Vibrato(9, 0.75);
+    player.chain(cheby, pitch, Tone.Master);
     
     //Play and Pause
     $( "#pButton" ).click(function() {
@@ -57,25 +51,29 @@ $( document ).ready(function() {
     }   
 });
 
-var setStretch = function(ratio) {
-  stretch = ratio
-  stretchDec(ratio)
-  console.log(ratio);
+var setOne = function(q){
+    console.log("One:" + q );
+    One = q;
+    $('#One').html(q);
+    cheby.order = Math.round(mapValue(q,1,100));
 }
 
-var setVolume = function(volume) {
-  volume = volume
-  volumeNode.gain.exponentialRampToValueAtTime(volume, context.currentTime + 0.05)
+var setTwo = function(q){
+    console.log("Two:" + q );
+    Two = q;
+    $('#Two').html(q);
+    pitch.pitch = Math.round(mapValue(q,-12,12));
 }
 
-var setFilterQ = function(q) {
-  filterQ = q
-  filterNode.Q.linearRampToValueAtTime(q, context.currentTime + 0.05)
+var setThree = function(q){
+    console.log("Three:" + q );
+    Three = q;
+    $('#Three').html(q);
+    player.playbackRate = mapValue(q,0.5,2);
 }
 
-var setFilterFreq = function(freq) {
-  filterFreq = freq
-  filterNode.frequency.exponentialRampToValueAtTime(freq, context.currentTime + 0.05)
+var mapValue = function(x,c,d){
+    return (x-0)/(1023)*(d-c)+c;
 }
 
 
