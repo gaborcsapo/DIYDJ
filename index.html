@@ -5,6 +5,7 @@
     <title>title</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/styles.css">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
     <script src="/js/jquery.min.js"></script>
     <script src="/tether.min.js"></script>
@@ -14,12 +15,13 @@
     <script src="/dsp.js"></script>
     <script src="/pitchshift.js"></script>
     <script src="/pitchshift-node.js"></script>
+    <script src="/stretching.js"></script>
     -->
     <script src="/Tone.min.js"></script>
     <script src="/paulstretch.js"></script>
     <script src="/media-player.js"></script>
     <script src="/dataInput.js"></script>
-    <script src="/stretching.js"></script>
+    
 
     <!--<script src="/AudioContextMonkeyPatch.js"></script>
     <script src="/dsp.js"></script>
@@ -33,34 +35,27 @@
     <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
   </head>
   <body>
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-12">
-          <button id="sButton" class="play btn btn-default" type="button">
-            <i  class="fa fa-search fa-lg" aria-hidden="true" ></i>
-          </button>
+    <div id="background"></div>
+    <div id="main">
+      <div id="player">  
+        <div class="row">    
+          <div class="col-sm-12 text-xs-center">
+            <div id="animation" class="loader"></div>
+          </div>     
         </div>
-        <div class="col-sm-12">
-          <button id="pButton" class="play btn btn-default" type="button">
-            <i id="playicon" class="fa fa-pause fa-5x" aria-hidden="true" ></i>
-          </button>
+        <button id="Filter" type="button" data-toggle="popover" data-placement="top"><i class="fa fa-sliders fa-lg" aria-hidden="true" ></i></button>
+      </div>
+      <div id="querycont">
+        <div class="row">
+          <form id="Query">
+            <input id='song-query' name="query" type="search"/>
+          </form>
+        </div>
+        <div class="container-fluid">
+          <ul id="songlist" class="list-group"></ul>  
         </div>
       </div>
-    </div>
-    <div class="container-fluid">
-      <form id="Query">
-        <input id='song-query' name="query" />
-        <input type="submit" value="Search" />
-      </form>
-      <form id="config">
-        <input id="one" type="range" min="0" max="1023" step="0" oninput="setOne(this.value)">
-        <input id="two" type="range" min="0" max="1023" step="0" oninput="setTwo(this.value)">
-        <input id="three" type="range" min="0" max="1023" step="0" oninput="setThree(this.value)">
-        
-      </form>  
-    </div>
-    <div class="container-fluid">
-      <ul id="songlist" class="list-group"></ul>  
-    </div>
+      <button id="search"><i class="fa fa-search fa-lg" aria-hidden="true" ></i></button>
+    </div> 
   </body>
 </html>

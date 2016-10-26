@@ -32,7 +32,6 @@ $( document ).ready(function() {
     });
 
     audioSource.addEventListener('canplay', function() {
-        audioSource.play();
 
         paulstretchWorker.onmessage = function (event) {
         // Add all the blocks from the batch to the `blocksOut` queue.
@@ -63,13 +62,6 @@ $( document ).ready(function() {
         setInterval(function() {
             if (blocksIn.length && !basic && !audioSource.paused)
                 paulstretchWorker.postMessage({ type: 'write', data: blocksIn.shift() });
-            if (blocksIn.length && basic && !audioSource.paused) {
-                while (blocksIn.length) {
-                    var out = blocksIn.shift();
-                    blocksOut.push(out);
-                
-                }
-            }
             if (blocksOut.length < batchSize && !basic && !audioSource.paused) 
                 paulstretchWorker.postMessage({ type: 'read' });
         }, 100)

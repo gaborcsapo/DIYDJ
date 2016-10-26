@@ -8,6 +8,7 @@ var ardatArray;
 var ardat1 = 0;
 var ardat2 = 0;
 var ardat3 = 0;
+var ardat4 = 0;
 
 app.set("views", __dirname);
 app.engine('.html', require('ejs').__express);
@@ -58,21 +59,32 @@ function showPortOpen() {
  
 function sendSerialData(data) {
    ardatArray = data.trim().split(",");
-   if (Math.abs(parseInt(ardatArray[0]) - ardat1)>3){
-      ardat1 = parseInt(ardatArray[0]);
+   console.log(ardatArray);
+   if (ardatArray[0] != "null"){
+      console.log(ardatArray[0]);
+      io.emit('ardatR', ardatArray[0]);
+   }
+   if (Math.abs(parseInt(ardatArray[1]) - ardat1)>3){
+      ardat1 = parseInt(ardatArray[1]);
       console.log(ardat1);
       io.emit('ardat1', ardat1);
    }
-   if (Math.abs(parseInt(ardatArray[1]) - ardat2)>3){
-      ardat2 = parseInt(ardatArray[1]);
+   if (Math.abs(parseInt(ardatArray[2]) - ardat2)>3){
+      ardat2 = parseInt(ardatArray[2]);
       console.log(ardat2);
       io.emit('ardat2', ardat2);
    }
-   if (Math.abs(parseInt(ardatArray[2]) - ardat3)>3){
-      ardat3 = parseInt(ardatArray[2]);
+   if (Math.abs(parseInt(ardatArray[3]) - ardat3)>3){
+      ardat3 = parseInt(ardatArray[3]);
       console.log(ardat3);
       io.emit('ardat3', ardat3);
-   }  
+   } 
+   if (ardat4 != ardatArray[4]){
+     ardat4 = ardatArray[4];
+     console.log(ardat4);
+     io.emit('ardat4', ardatArray[3]);
+   }
+    
 }
  
 function showPortClose() {
