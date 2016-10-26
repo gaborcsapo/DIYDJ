@@ -4,7 +4,10 @@ id = window.location.href.split('/'),
 track = id[id.length-1] || "95831002";
 url = 'http://api.soundcloud.com/tracks/' + id[id.length-1] + '/stream?client_id=a76e446ebb86aaafa04e563f2e8046f3&callback=processTracks';
 
-var One, Two, Three, Four;
+var One = 0,
+Two = 0, 
+Three = 0, 
+Four = false;
 var player;
 var crusher; 
 var cheby; 
@@ -16,22 +19,32 @@ var currentFilter;
 
 var changeFilter = function(val){
         console.log(val);
-        player.disconnect()
+        player.disconnect();
         switch(val){
             case '0':
                 currentFilter = tremolo;
+                if (document.getElementById("three") != null)
+                    document.getElementById("selectFilter").value = '0';
                 break;
             case '1':
                 currentFilter = cheby;
+                if (document.getElementById("three") != null)
+                    document.getElementById("selectFilter").value = '1';
                 break;
             case '2':
                 currentFilter = vibrato;
+                if (document.getElementById("three") != null)
+                    document.getElementById("selectFilter").value = '2';
                 break;
             case '3':
                 currentFilter = dist;
+                if (document.getElementById("three") != null)
+                    document.getElementById("selectFilter").value = '3';
                 break;
             case '4':
                 currentFilter = crusher;
+                if (document.getElementById("three") != null)
+                    document.getElementById("selectFilter").value = '4';
                 break;
             
         }
@@ -82,20 +95,20 @@ $( document ).ready(function() {
 
     //Filter settings popover
     var html = $([
-        '<select onchange="changeFilter(this.value)" class="custom-select centered">',
+        '<select id="selectFilter" onchange="changeFilter(this.value)" class="custom-select centered">',
         '    <option value="0">Tremolo</option>',
         '    <option value="1">Chebyshev</option>',
         '    <option value="2">Vibrato</option>',
         '    <option value="3">Distortion</option>',
         '    <option value="4">Bitcrusher</option>',
         '</select>',
-        '<input id="one" class="centered" type="range" min="0" max="1023" step="0" oninput="setOne(this.value)">',
+        '<input id="zero" class="centered" type="range" min="0" max="1023" step="0" oninput="setOne(this.value)">',
         '<h3 class="centered">Pitch</h3>',
         '<input id="one" class="centered" type="range" min="0" max="1023" step="0" oninput="setTwo(this.value)"">',
         '<h3 class="centered">Playback rate</h3>',
-        '<input id="one" class="centered" type="range" min="0" max="1023" step="0" oninput="setThree(this.value)">',
+        '<input id="two" class="centered" type="range" min="0" max="1023" step="0" oninput="setThree(this.value)">',
         '<label class="custom-control custom-checkbox centered">',
-        '    <input onchange="reverseSong(this.checked)" type="checkbox" class="custom-control-input">',
+        '    <input id="three" onchange="reverseSong(this.checked)" type="checkbox" class="custom-control-input">',
         '    <span class="custom-control-indicator"></span>',
         '    <span class="custom-control-description">Reverse song</span>',
         '</label>',
@@ -130,7 +143,7 @@ var setOne = function(q){
     $('#One').html(q);
     switch (currentFilter) {
         case cheby:
-            currentFilter.order = Math.round(mapValue(q,1,50));
+            currentFilter.order = Math.round(mapValue(q,1,50)); 
             break;
         case tremolo:
             currentFilter.frequency = Math.round(mapValue(q,0,20));
@@ -142,7 +155,7 @@ var setOne = function(q){
             currentFilter.distortion = mapValue(q,0,1);
             break;
         case vibrato:
-            currentFilter.frequency = Math.round(mapValue(q,0,20));
+            currentFilter.depth = (mapValue(q,0,2));
             break;
     }
     
@@ -152,19 +165,20 @@ var setTwo = function(q){
     Two = q;
     $('#Two').html(q);
     pitch.pitch = Math.round(mapValue(q,-12,12));
-    console.log("Two:" + pitch.pitch );
+    console.log("Pitch:" + pitch.pitch );
 }
 
 var setThree = function(q){
     Three = q;
     $('#Three').html(q);
     player.playbackRate = mapValue(q,0.5,2);
-    console.log("Three:" + player.playbackRate);
+    console.log("Playback:" + player.playbackRate);
 }
 
 var setFour = function(q){
     Four = q;
     player.reverse = Four;
+    console.log("Reverse:" + Four);
 }
 
 var mapValue = function(x,c,d){

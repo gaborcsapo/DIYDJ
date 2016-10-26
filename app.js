@@ -74,17 +74,11 @@ function sendSerialData(data) {
       console.log(ardat2);
       io.emit('ardat2', ardat2);
    }
-   if (Math.abs(parseInt(ardatArray[3]) - ardat3)>3){
+   if (ardat3 != ardatArray[3]){
       ardat3 = parseInt(ardatArray[3]);
-      console.log(ardat3);
+      console.log("ardat3" + ardat3);
       io.emit('ardat3', ardat3);
-   } 
-   if (ardat4 != ardatArray[4]){
-     ardat4 = ardatArray[4];
-     console.log(ardat4);
-     io.emit('ardat4', ardatArray[3]);
    }
-    
 }
  
 function showPortClose() {

@@ -31,62 +31,51 @@ $( document ).ready(function() {
     socket.on('ardatR', function(msg){
         switch (msg){
             case "a":
-                setOne(One+5);
+                setThree(Three+150);
+                if (document.getElementById("two") != null)
+                    document.getElementById("two").value = Three+150;
                 break;
             case "b":
                 playStop();
                 break;
             case "c":
-                setOne(One-5);
+                setThree(Three-150);
+                if (document.getElementById("two") != null)
+                    document.getElementById("two").value = Three+150;
                 break;
             case '1':
-                currentFilter = tremolo;
-                player.chain(currentFilter, pitch, Tone.Master);
-                console.log(currentFilter);
+                changeFilter('0');
                 break;
             case '2':
-                currentFilter = cheby;
-                player.chain(currentFilter, pitch, Tone.Master);
-                console.log(currentFilter);
+                changeFilter('1');
                 break;
             case '3':
-                currentFilter = vibrato;
-                player.chain(currentFilter, pitch, Tone.Master);
-                console.log(currentFilter);
+                changeFilter('2');
                 break;
             case '4':
-                currentFilter = dist;
-                player.chain(currentFilter, pitch, Tone.Master);
-                console.log(currentFilter);
+                changeFilter('3');
                 break;
             case '5':
-                currentFilter = crusher;
-                player.chain(currentFilter, pitch, Tone.Master);
-                console.log(currentFilter);
+                changeFilter('4');
                 break;
             default:
                 break;  
         }
     });
     socket.on('ardat1', function(msg){
-        setOne(parseInt(msg));
+        setTwo(parseInt(msg));
         if (document.getElementById("one") != null)
             document.getElementById("one").value = parseInt(msg);
     });
     socket.on('ardat2', function(msg){
-        setTwo(parseInt(msg));
-        if (document.getElementById("two") != null)
-            document.getElementById("two").value = parseInt(msg);
+        setOne(parseInt(msg));
+        if (document.getElementById("zero") != null)
+            document.getElementById("zero").value = parseInt(msg);
     });
     socket.on('ardat3', function(msg){
-        setThree(parseInt(msg));
-        if (document.getElementById("three") != null)
-            document.getElementById("three").value = parseInt(msg);
-    });
-    socket.on('ardat4', function(msg){
         setFour((parseInt(msg) == 1 ? true : false));
-        if (document.getElementById("four") != null)
-            document.getElementById("four").value = parseInt(msg);
+        if (document.getElementById("three") != null)
+            $('#three')[0].checked = Four;
     });  
 });
 
