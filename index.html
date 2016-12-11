@@ -17,10 +17,16 @@
     <script src="/pitchshift-node.js"></script>
     <script src="/stretching.js"></script>
     -->
+    <script src="/p5.min.js"></script>
+    <script src="/p5.dom.js"></script>
+    <script src="/p5.speech.js"></script>
+    <script src="/dat-gui-min.js"></script>
+    <script src="/camgui.js"></script>
     <script src="/Tone.min.js"></script>
     <script src="/paulstretch.js"></script>
     <script src="/media-player.js"></script>
     <script src="/dataInput.js"></script>
+    <script src="/webcam.js"></script>
     
 
     <!--<script src="/AudioContextMonkeyPatch.js"></script>
@@ -44,10 +50,11 @@
           </div>     
         </div>
         <button id="Filter" type="button" data-toggle="popover" data-placement="top"><i class="fa fa-sliders fa-lg" aria-hidden="true" ></i></button>
+        <button id="CamFilter" onclick="showVideo()"><i class="fa fa-camera fa-lg" aria-hidden="true" ></i></button>      
       </div>
       <div id="querycont">
         <div class="row">
-          <form id="Query">
+          <form id="Query" autocomplete="off">
             <input id='song-query' name="query" type="search"/>
           </form>
         </div>
@@ -57,5 +64,6 @@
       </div>
       <button id="search"><i class="fa fa-search fa-lg" aria-hidden="true" ></i></button>
     </div> 
+    <canvas id="canvas" style="width:320px,height:240px;"></canvas>
   </body>
 </html>

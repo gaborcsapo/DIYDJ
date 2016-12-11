@@ -16,6 +16,8 @@ var pitch;
 var tremolo;
 var vibrato;
 var currentFilter;
+var showVideo = function(){};
+var shown = false;
 
 var changeFilter = function(val){
         console.log(val);
@@ -103,9 +105,9 @@ $( document ).ready(function() {
         '    <option value="4">Bitcrusher</option>',
         '</select>',
         '<input id="zero" class="centered" type="range" min="0" max="1023" step="0" oninput="setOne(this.value)">',
-        '<h3 class="centered">Pitch</h3>',
+        '<p class="centered">Pitch</p><p id="Two"></p>',
         '<input id="one" class="centered" type="range" min="0" max="1023" step="0" oninput="setTwo(this.value)"">',
-        '<h3 class="centered">Playback rate</h3>',
+        '<p class="centered">Playback rate</p><p id="Three"></p>',
         '<input id="two" class="centered" type="range" min="0" max="1023" step="0" oninput="setThree(this.value)">',
         '<label class="custom-control custom-checkbox centered">',
         '    <input id="three" onchange="reverseSong(this.checked)" type="checkbox" class="custom-control-input">',
@@ -121,7 +123,8 @@ $( document ).ready(function() {
         document.getElementById("two").value = Two;
         document.getElementById("three").value = Three;
     });
-
+    
+    //Search button
     $('#search').click(function() {
         if ($('.fa').hasClass("fa-search")){
             $('#querycont').css('display', 'block');
@@ -163,21 +166,21 @@ var setOne = function(q){
 
 var setTwo = function(q){
     Two = q;
-    $('#Two').html(q);
+    $('#Two').html(Math.round(mapValue(q,-12,12)));
     pitch.pitch = Math.round(mapValue(q,-12,12));
     console.log("Pitch:" + pitch.pitch );
 }
 
 var setThree = function(q){
     Three = q;
-    $('#Three').html(q);
+    $('#Three').html(mapValue(q,0.5,2));
     player.playbackRate = mapValue(q,0.5,2);
     console.log("Playback:" + player.playbackRate);
 }
 
 var setFour = function(q){
-    Four = q;
-    player.reverse = Four;
+    player.reverse = !Four;
+    Four = !Four;
     console.log("Reverse:" + Four);
 }
 

@@ -73,9 +73,9 @@ $( document ).ready(function() {
             document.getElementById("zero").value = parseInt(msg);
     });
     socket.on('ardat3', function(msg){
-        setFour((parseInt(msg) == 1 ? true : false));
-        if (document.getElementById("three") != null)
-            $('#three')[0].checked = Four;
+        setThree(parseInt(msg));
+        if (document.getElementById("two") != null)
+            document.getElementById("two").value = parseInt(msg);
     });  
 });
 

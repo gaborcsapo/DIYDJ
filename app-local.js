@@ -9,7 +9,6 @@ var ardat1 = 0;
 var ardat2 = 0;
 var ardat3 = 0;
 var ardat4 = 0;
-var port = process.env.PORT || 3000;
 
 app.set("views", __dirname);
 app.engine('.html', require('ejs').__express);
@@ -23,38 +22,60 @@ app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
 app.get("/api" , function (request, response) {
 	response.send(ardsdat);
 });
-app.get('/yun/:pitch/:rate/:filter', function(req, res) {
-  res.send("success");
-  sendData(req.params.pitch, req.params.rate, req.params.filter);
-});
 
 app.get("*", function(request, response){
 	response.render('index');
 });
 
-server.listen(port, function () {
-  console.log('Example app listening on port ' + port);
+server.listen(3000, function () {
+  console.log('Example app listening on port 3000!');
 });
 
+var serialport = require('serialport');// include the library
+SerialPort = serialport.SerialPort; // make a local instance of it
 
+var portName = "COM18";
+serialport.list(function (err, ports) {
+  portName = ports[1].comName;
+  ports.forEach(function(port) {
+    console.log(port.comName);
+  });
+});
+
+var myPort = new SerialPort("COM18", {
+	baudRate: 9600,
+	// look for return and newline at the end of each data packet:
+	parser: serialport.parsers.readline("\n")
+});
+
+myPort.on('open', showPortOpen);
+myPort.on('data', sendSerialData);
+myPort.on('close', showPortClose);
+myPort.on('error', showError);
 
 function showPortOpen() {
    console.log('port open. Data rate: ' + myPort.options.baudRate);
 }
  
-function sendData(pitch, rate, filter) {
-   if (Math.abs(parseInt(pitch) - ardat1)>3){
-      ardat1 = parseInt(pitch);
+function sendSerialData(data) {
+   ardatArray = data.trim().split(",");
+   console.log(ardatArray);
+   if (ardatArray[0] != "null"){
+      console.log(ardatArray[0]);
+      io.emit('ardatR', ardatArray[0]);
+   }
+   if (Math.abs(parseInt(ardatArray[1]) - ardat1)>3){
+      ardat1 = parseInt(ardatArray[1]);
       console.log(ardat1);
       io.emit('ardat1', ardat1);
    }
-   if (Math.abs(parseInt(rate) - ardat2)>3){
-      ardat2 = parseInt(rate);
+   if (Math.abs(parseInt(ardatArray[2]) - ardat2)>3){
+      ardat2 = parseInt(ardatArray[2]);
       console.log(ardat2);
       io.emit('ardat2', ardat2);
    }
-    if (Math.abs(parseInt(rate) - ardat3)>3){
-      ardat3 = parseInt(filter);
+   if (ardat3 != ardatArray[3]){
+      ardat3 = parseInt(ardatArray[3]);
       console.log("ardat3" + ardat3);
       io.emit('ardat3', ardat3);
    }
