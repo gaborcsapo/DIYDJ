@@ -9,7 +9,6 @@
  	<li style="font-weight: 400;"><span style="font-weight: 400;">The arduino yun controller is a box with a battery that sends signal over wifi to the server to change the sound being played on the website</span></li>
  	<li style="font-weight: 400;"><span style="font-weight: 400;">The server is set up using Node JS, hosted on Heroku, so it is publically available.</span></li>
 </ul>
-<a href="http://s3-ap-southeast-1.amazonaws.com/ima-wp/wp-content/uploads/sites/5/2016/12/15205228/20161212_0058051.jpg"><img class="alignnone size-medium wp-image-71680" src="http://s3-ap-southeast-1.amazonaws.com/ima-wp/wp-content/uploads/sites/5/2016/12/15205228/20161212_0058051-300x169.jpg" alt="20161212_005805" width="300" height="169" /></a>
 <h1><span style="font-weight: 400;">Ideation</span></h1>
 <span style="font-weight: 400;">The project is inspired by my midterm project but it is upgraded in every sense. In the midterm project I was looking for fun ways to manipulate sound, which turned out to be harder than I thought. I consulted with Luisa and in the end we agreed that playbackrate, pitch and filters are the best ways that are still manageably hard. This time I wanted to create fun interfaces to manipulate the sound with. I was thinking a lot about meaningful, fun and novel interfaces and I concluded computer vision, speech recognition and a wifi enabled controller is the best.</span>
 <h1>Research and Development</h1>
@@ -23,12 +22,6 @@
  	<li style="font-weight: 400;"><span style="font-weight: 400;"> Arduino Yun: I wanted to create something more technical for the arduino part than what I had before. Creating a battery powered Wifi enabled Arduino sounded like a good challenge and a useful skill since in the real world we would never connect an embedded device to a computer. I built a simple cardboard box for the parts to make it less messy. I big lesson I learnt is to learn to read emails, because I didn’t know the laser cutting is shut down after Dec. 7. And I made an appointment for Dec. 9 so even though I made a crazy cool box with an interesting pattern, I couldn’t laser cut it...<a href="http://s3-ap-southeast-1.amazonaws.com/ima-wp/wp-content/uploads/sites/5/2016/12/15205321/20161214_2349551.jpg"><img class="size-medium wp-image-71682 alignright" src="http://s3-ap-southeast-1.amazonaws.com/ima-wp/wp-content/uploads/sites/5/2016/12/15205321/20161214_2349551-300x169.jpg" alt="20161214_234955" width="300" height="169" /></a></span></li>
 </ul>
 <h1 style="text-align: center;"></h1>
-[video width="1920" height="1080" mp4="http://s3-ap-southeast-1.amazonaws.com/ima-wp/wp-content/uploads/sites/5/2016/12/15205502/20161214_235250.mp4"][/video]
-
-[video width="1920" height="1080" mp4="http://s3-ap-southeast-1.amazonaws.com/ima-wp/wp-content/uploads/sites/5/2016/12/15205725/20161214_235441.mp4"][/video]
-<h1 style="text-align: center;"></h1>
-<h4 style="text-align: center;"><a href="https://github.com/gaborcsapo/MidtermProject">Check out the project code on Github!!</a></h4>
-<h5 style="text-align: center;"><a href="http://diydj.herokuapp.com">Click here to go to the Website!!</a></h5>
 <h1></h1>
 <h1><span style="font-weight: 400;">Lessons learnt:<a href="http://s3-ap-southeast-1.amazonaws.com/ima-wp/wp-content/uploads/sites/5/2016/12/15205249/20161214_2349311.jpg"><img class="size-medium wp-image-71681 alignleft" src="http://s3-ap-southeast-1.amazonaws.com/ima-wp/wp-content/uploads/sites/5/2016/12/15205249/20161214_2349311-300x169.jpg" alt="20161214_234931" width="300" height="169" /></a></span></h1>
 <span style="font-weight: 400;">My biggest take away from the project is that computer vision and speech recognition isn’t necessarily as hard as I thought. There are high level libraries available that make everything fairly easy, but once I want to alter something I have to dig really deep into the topic.</span>
